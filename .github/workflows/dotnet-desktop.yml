@@ -35,9 +35,9 @@ jobs:
       shell: pwsh
       run: |
         echo "Searching for .csproj file..."
-        csproj_file=$(find . -name "*.csproj" -print -quit)
-        echo "Found .csproj file: $csproj_file"
-        echo "csproj_file=$csproj_file" >> $GITHUB_ENV
+        $csproj_file = Get-ChildItem -Recurse -Filter "*.csproj" | Select-Object -First 1
+        echo "Found .csproj file: $($csproj_file.FullName)"
+        echo "csproj_file=$($csproj_file.FullName)" >> $env:GITHUB_ENV
 
     - name: Restore the application
       run: msbuild $csproj_file /t:Restore /p:Configuration=$env:Configuration
