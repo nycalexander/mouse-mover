@@ -38,11 +38,6 @@ jobs:
         $csproj_file = Get-ChildItem -Recurse -Filter "*.csproj" | Select-Object -First 1
         echo "Found .csproj file: $($csproj_file.FullName)"
         echo "csproj_file=$($csproj_file.FullName)" >> $env:GITHUB_ENV
-
-    - name: Restore the application
-      run: msbuild $csproj_file /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
         
     - name: Publish application
       shell: cmd
