@@ -81,23 +81,15 @@ jobs:
         Configuration: ${{ matrix.configuration }}
         
     - name: Publish application
-      uses: EasyDesk/action-dotnet-publish@v1
-      with:
-          # (Optional) The path to the project that should be published.
-          # If not specified, defaults to '.'.
-          path: 'publish\'
-
-          # (Optional) The build configuration.
-          # If not specified, defaults to 'Release'.
-          build-configuration: Debug
-          skip-build: false
+      shell: cmd
+      run: dotnet publish -o ".\publish\" -p:PublishSingleFile=true --self-contained false
 
     - name: Setup 7-Zip
       uses: milliewalky/setup-7-zip@v1
 
     - name: Archive published application
       shell: cmd
-      run: '7z a build.zip .\publish\*'
+      run: 7z a build.zip .\publish\*
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
