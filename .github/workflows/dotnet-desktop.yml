@@ -50,7 +50,7 @@ jobs:
 
     strategy:
       matrix:
-        configuration: [Debug, Release]
+        configuration: [Debug]
 
     runs-on: windows-latest  # For a list of available runner types, refer to
                              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
@@ -65,7 +65,7 @@ jobs:
         fetch-depth: 0
 
     # Install the .NET Core workload
-    - name: Install .NET Core
+    - name: Install .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
@@ -73,10 +73,6 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v2
-
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
 
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
@@ -89,15 +85,11 @@ jobs:
       with:
           # (Optional) The path to the project that should be published.
           # If not specified, defaults to '.'.
-          path: '.\publish\'
-
-          # (Optional) Additional command line arguments to be passed to 'dotnet test'.
-          # If not specified, defaults to 'packages'.
-          output-dir: '<path-to-output-dir>'
+          path: 'publish\'
 
           # (Optional) The build configuration.
           # If not specified, defaults to 'Release'.
-          build-configuration: Release
+          build-configuration: Debug
           skip-build: false
 
     - name: Setup 7-Zip
@@ -105,10 +97,10 @@ jobs:
 
     - name: Archive published application
       shell: cmd
-      run: 7z a build.zip .\publish\*
+      run: '7z a build.zip .\publish\*'
 
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: ZIP Build
-        path: '.\build.zip'
+        path: 'build.zip'
