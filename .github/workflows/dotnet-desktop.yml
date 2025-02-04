@@ -32,6 +32,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
 
     - name: Find .csproj file
+      shell: pwsh
       run: |
         echo "Searching for .csproj file..."
         csproj_file=$(find . -name "*.csproj" -print -quit)
