@@ -82,7 +82,7 @@ jobs:
         
     - name: Publish application
       shell: cmd
-      run: dotnet publish -o ".\publish\" -p:PublishSingleFile=true --self-contained false
+      run: dotnet publish -p:PublishSingleFile=true --self-contained false -o %cd%\publish\
 
     - name: Setup 7-Zip
       uses: milliewalky/setup-7-zip@v1
